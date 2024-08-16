@@ -8,6 +8,15 @@ import (
 )
 
 // Get All Products
+// GetAllProducts godoc
+//	@Summary		Get all products
+//	@Description	Retrieve a list of all products available in the store
+//	@Tags			Products
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	map[string]interface{}	"List of products"
+//	@Failure		500	{object}	map[string]interface{}	"Internal Server Error"
+//	@Router			/api/product [get]
 func GetAllProducts(c *fiber.Ctx) error {
 	db := database.DB
 	var products []model.Product
@@ -16,6 +25,17 @@ func GetAllProducts(c *fiber.Ctx) error {
 }
 
 // Get product with id
+// GetProduct godoc
+//	@Summary		Get a product by ID
+//	@Description	Retrieve details of a specific product by its ID
+//	@Tags			Products
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int						true	"Product ID"
+//	@Success		200	{object}	map[string]interface{}	"Product details"
+//	@Failure		404	{object}	map[string]interface{}	"Product not found"
+//	@Failure		500	{object}	map[string]interface{}	"Internal Server Error"
+//	@Router			/api/product/{id} [get]
 func GetProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DB
@@ -29,6 +49,18 @@ func GetProduct(c *fiber.Ctx) error {
 }
 
 // membuat product baru
+// CreateProduct godoc
+//	@Summary		Create a new product
+//	@Description	Create a new product with the provided title, description, and amount
+//	@Tags			Products
+//	@Accept			json
+//	@Produce		json
+//	@Param			product	body		map[string]interface{}	true	"Product data"
+//	@Success		200		{object}	map[string]interface{}	"Product created"
+//	@Failure		400		{object}	map[string]interface{}	"Invalid input"
+//	@Failure		500		{object}	map[string]interface{}	"Internal Server Error"
+//	@Security		BearerAuth
+//	@Router			/api/product [post]
 func CreateProduct(c *fiber.Ctx) error {
 	db := database.DB
 	product := new(model.Product)

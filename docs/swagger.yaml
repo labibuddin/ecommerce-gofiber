@@ -1,0 +1,188 @@
+basePath: /
+host: localhost:3000
+info:
+  contact:
+    email: labibuddinalfin@gmail.com
+    name: Alfin Afifi
+  description: This is a simple e-Commerce with Auth and postgres as database
+  license:
+    name: labibuddin 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Simple e-Commerce
+  version: "1.0"
+paths:
+  /api:
+    get:
+      consumes:
+      - application/json
+      description: Simple hello endpoint to test the API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Hello World
+          schema:
+            type: string
+      summary: Hello endpoint
+      tags:
+      - Hello
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user and return a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT token
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: User login
+      tags:
+      - Auth
+  /api/product:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all products available in the store
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of products
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all products
+      tags:
+      - Products
+    post:
+      consumes:
+      - application/json
+      description: Create a new product with the provided title, description, and
+        amount
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new product
+      tags:
+      - Products
+  /api/product/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve details of a specific product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product details
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Product not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a product by ID
+      tags:
+      - Products
+  /api/user:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided username and email
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: success, message: Created user, data: {model.User.Username,
+            model.User.Email}'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: error, message: Review your input or Couldn''t create
+            user'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create User
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

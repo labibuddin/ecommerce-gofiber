@@ -51,6 +51,17 @@ func isEmail(email string) bool {
 }
 
 // Login get user dan password
+// Login godoc
+//	@Summary		User login
+//	@Description	Authenticate a user and return a JWT token
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			credentials	body		map[string]interface{}	true	"User credentials"
+//	@Success		200			{object}	map[string]interface{}	"JWT token"
+//	@Failure		401			{object}	map[string]interface{}	"Unauthorized"
+//	@Failure		500			{object}	map[string]interface{}	"Internal Server Error"
+//	@Router			/api/auth/login [post]
 func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`

@@ -53,6 +53,15 @@ func GetUser(c *fiber.Ctx) error {
 }
 
 // CreateUser new user
+//	@Summary		Create User
+//	@Description	Create a new user with the provided username and email
+//	@Tags			User
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		map[string]interface{}	true	"User info"
+//	@Success		200		{object}	map[string]interface{}	"status: success, message: Created user, data: {model.User.Username, model.User.Email}"
+//	@Failure		500		{object}	map[string]interface{}	"status: error, message: Review your input or Couldn't create user"
+//	@Router			/api/user [post]
 func CreateUser(c *fiber.Ctx) error {
 	type NewUser struct {
 		Username string `json:"username"`
