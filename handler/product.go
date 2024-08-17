@@ -55,7 +55,7 @@ func GetProduct(c *fiber.Ctx) error {
 //	@Tags			Products
 //	@Accept			json
 //	@Produce		json
-//	@Param			product	body		map[string]interface{}	true	"Product data"
+//	@Param			product	body		model.ProductSwagger	true	"Product data"	Example({"title": "Product A", "description": "A great product", "amount": 10})
 //	@Success		200		{object}	map[string]interface{}	"Product created"
 //	@Failure		400		{object}	map[string]interface{}	"Invalid input"
 //	@Failure		500		{object}	map[string]interface{}	"Internal Server Error"
@@ -74,6 +74,19 @@ func CreateProduct(c *fiber.Ctx) error {
 }
 
 // delete product 
+// Delete product with id
+// Delete Product godoc
+//	@Summary		Delete a product by ID
+//	@Description	Delete a specific product by its ID
+//	@Tags			Products
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int						true	"Product ID"
+//	@Success		200	{object}	map[string]interface{}	"Product deleted"
+//	@Failure		404	{object}	map[string]interface{}	"Product not found"
+//	@Failure		500	{object}	map[string]interface{}	"Internal Server Error"
+//	@Security		BearerAuth
+//	@Router			/api/product/{id} [delete]
 func DeleteProduct(c *fiber.Ctx) error {
 	id := c.Params("id")
 	db := database.DB

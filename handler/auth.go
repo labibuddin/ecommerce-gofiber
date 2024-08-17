@@ -57,7 +57,7 @@ func isEmail(email string) bool {
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
-//	@Param			credentials	body		map[string]interface{}	true	"User credentials"
+//	@Param			credentials	body		model.UserInputSwagger	true	"User credentials"
 //	@Success		200			{object}	map[string]interface{}	"JWT token"
 //	@Failure		401			{object}	map[string]interface{}	"Unauthorized"
 //	@Failure		500			{object}	map[string]interface{}	"Internal Server Error"

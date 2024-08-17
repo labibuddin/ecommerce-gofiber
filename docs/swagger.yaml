@@ -1,4 +1,53 @@
 basePath: /
+definitions:
+  model.ProductSwagger:
+    properties:
+      amount:
+        example: 10
+        type: integer
+      description:
+        example: A high-quality product
+        type: string
+      title:
+        example: Product A
+        type: string
+    type: object
+  model.UserDeleteSwagger:
+    properties:
+      password:
+        example: "12345678"
+        type: string
+    type: object
+  model.UserInputSwagger:
+    properties:
+      identity:
+        example: Alfin Afifi
+        type: string
+      password:
+        example: "12345678"
+        type: string
+    type: object
+  model.UserSwagger:
+    properties:
+      email:
+        example: pakvincent@gmail.com
+        type: string
+      names:
+        example: Labibuddin
+        type: string
+      password:
+        example: "12345678"
+        type: string
+      username:
+        example: Alfin Afifi
+        type: string
+    type: object
+  model.UserUpdateSwagger:
+    properties:
+      names:
+        example: Udin Labib
+        type: string
+    type: object
 host: localhost:3000
 info:
   contact:
@@ -37,8 +86,7 @@ paths:
         name: credentials
         required: true
         schema:
-          additionalProperties: true
-          type: object
+          $ref: '#/definitions/model.UserInputSwagger'
       produces:
       - application/json
       responses:
@@ -92,8 +140,7 @@ paths:
         name: product
         required: true
         schema:
-          additionalProperties: true
-          type: object
+          $ref: '#/definitions/model.ProductSwagger'
       produces:
       - application/json
       responses:
@@ -118,6 +165,39 @@ paths:
       tags:
       - Products
   /api/product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product deleted
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Product not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a product by ID
+      tags:
+      - Products
     get:
       consumes:
       - application/json
@@ -160,8 +240,7 @@ paths:
         name: user
         required: true
         schema:
-          additionalProperties: true
-          type: object
+          $ref: '#/definitions/model.UserSwagger'
       produces:
       - application/json
       responses:
@@ -178,6 +257,110 @@ paths:
             additionalProperties: true
             type: object
       summary: Create User
+      tags:
+      - User
+  /api/user/{id}:
+    delete:
+      description: Delete a user based on the provided ID and password for verification
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Password input for user verification
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserDeleteSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User successfully deleted
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a user by ID
+      tags:
+      - User
+    get:
+      description: Retrieve user details by user ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User found
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: No user found with ID
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a user by ID
+      tags:
+      - User
+    patch:
+      description: Update a user's names based on the provided ID and input data
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update user input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserUpdateSwagger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User successfully updated
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid input
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a user's information
       tags:
       - User
 securityDefinitions:
